@@ -14,7 +14,7 @@ data1$Continent <- countrycode(sourcevar = data1[, "Country"],
                                destination = "continent")
 
 # Plotting static graph
-x = ggplot(data1, aes(log(GDP), Life.expectancy, col = Continent, size = Population)) + 
+ggplot(data1, aes(log(GDP), Life.expectancy, col = Continent, size = Population)) + 
   geom_point(alpha = 0.5) +
   facet_wrap(~ Continent) +
   geom_smooth(method = lm)
@@ -25,7 +25,13 @@ theme_linedraw() +
 summary(lm(data1$Life.expectancy~data1$GDP))
 
 # Implementing gganimate 
-anim <- x + transition_time(data1$Year) +
+plot1 <- ggplot(data1, aes(log(GDP), Life.expectancy, col = Continent, size = Population)) + 
+  geom_point(alpha = 0.5) +
+  facet_wrap(~ Continent) +
+theme_linedraw() +
+  ggtitle("Effect of GDP on life expectancy")
+
+anim <- plot1 + transition_time(data1$Year) +
   labs(title = "Year: {frame_time}") +
   ease_aes('linear')
 
