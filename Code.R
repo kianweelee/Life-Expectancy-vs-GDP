@@ -5,7 +5,7 @@ library(ggplot2)
 library(plyr)
 library(countrycode)
 
-# Importing datasets
+# Importing datasets. Download file from Kaggle (details in Readme.md).
 data1 <- read.csv("/Users/kianweelee/Desktop/rstat/Life_Expectancy_Data.txt", header = T, sep = "\t")
 
 # Adding a new column containing continent 
