@@ -4,8 +4,9 @@ library(gganimate)
 library(ggplot2)
 library(plyr)
 library(countrycode)
+library(ggthemes)
 
-# Importing datasets. Download file from Kaggle (details in Readme.md).
+# Importing datasets
 data1 <- read.csv("/Users/kianweelee/Desktop/rstat/Life_Expectancy_Data.txt", header = T, sep = "\t")
 
 # Adding a new column containing continent 
@@ -18,8 +19,7 @@ ggplot(data1, aes(log(GDP), Life.expectancy, col = Continent, size = Population)
   geom_point(alpha = 0.5) +
   facet_wrap(~ Continent) +
   geom_smooth(method = lm)
-theme_linedraw() +
-  ggtitle("Effect of GDP on life expectancy")
+theme_linedraw() 
 
 # Running linear regression model, with response variable being life exp and explanatory variable being GDP  
 summary(lm(data1$Life.expectancy~data1$GDP))
@@ -27,12 +27,14 @@ summary(lm(data1$Life.expectancy~data1$GDP))
 # Implementing gganimate 
 plot1 <- ggplot(data1, aes(log(GDP), Life.expectancy, col = Continent, size = Population)) + 
   geom_point(alpha = 0.5) +
-  facet_wrap(~ Continent) +
+  facet_wrap(~ Continent, scales='free') +
+  theme_tufte() + theme(axis.line=element_line()) + 
+  scale_x_continuous(limits=c(0,12)) + scale_y_continuous(limits=c(0,90))
 theme_linedraw() +
-  ggtitle("Effect of GDP on life expectancy")
+  theme(panel.spacing = unit(2, "lines"))
 
 anim <- plot1 + transition_time(data1$Year) +
   labs(title = "Year: {frame_time}") +
   ease_aes('linear')
 
-anim_save("anim1.gif", anim)
+anim_save("anim2.gif", anim)
